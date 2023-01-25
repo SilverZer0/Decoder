@@ -116,8 +116,9 @@ class Tools:
                     with open(DIR+'wordsEng.txt', 'r') as f:
                         self._OUT = func(self, self.IN.get('1.0', 'end-1c'), f.read().split('\n'))
                 case 'WordsGer':
-                    with open(DIR+'wordsGer.txt', 'r') as f:
-                        self._OUT = func(self, self.IN.get('1.0', 'end-1c'), f.read().split('\n'))
+                    with open(DIR+'wordsGer1.txt', 'r') as f1:
+                        with open(DIR+'wordsGer2.txt', 'r') as f2:
+                            self._OUT = func(self, self.IN.get('1.0', 'end-1c'), f1.read().split('\n')+f2.read().split('\n'))
                 case 'OUT_Annagram':
                     self._OUT = func(self, self.IN.get('1.0', 'end-1c'), Tabs[0]._OUT)
                 case 'OUT_Regex':
