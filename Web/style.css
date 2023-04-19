@@ -1,0 +1,100 @@
+@font-face {
+    font-family: BraileSpace;
+    src: url("BrailleSpace.ttf")
+}
+
+body > * {
+    max-width: 754px;
+    margin: auto;
+}
+
+#tabbar {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    padding: 0 1.5;
+}
+  
+#tabbar button {
+    width: 62.8px;
+    text-align: center;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 0px;
+}
+
+#tabbar button.active {
+    background-color: #ccc;
+}
+  
+#tab-content > div{
+    display: none;
+}
+
+#tab-content > div.active {
+    display: block;
+}
+
+textarea{
+    font-family: BraileSpace, monospace;
+    resize: none;
+    border-radius: 3px;
+}
+
+.margin-top{
+    margin-top: 15px;
+}
+
+.columns-container{
+    height: 765px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+
+.columns {
+    columns: 169px 4;
+    column-rule: 1px solid gray;    
+}
+
+.columns > * {
+    float: right;
+    white-space: nowrap;
+    overflow-x: hidden;
+    width: 170px;
+    direction: rtl;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+}
+
+.options > *{
+    align-self: center;
+    margin: 0px 10px;
+}
+
+.short-text{
+    width: 30px;
+}
+
+.braille-dot {
+    width: 16.6px;
+    height: 16.6px;
+    margin: 0;
+    background-color: white;
+    border-radius: 50%;
+    appearance: none;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.braille-dot:checked {
+    background-color: black;
+}
