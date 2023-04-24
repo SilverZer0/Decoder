@@ -156,15 +156,15 @@ class Anagram extends Tab{
                 break;
             case "bigger":
                 this.OUT.value = Words.filter((v)=>{return v.length >= input.length 
-                    && this.isSublist(input, v.toLowerCase().split("").sort())});
+                    && this.isSublist(v.toLowerCase().split("").sort(), input)});
                 break;
             case "smaller":
                 this.OUT.value = Words.filter((v)=>{return v.length <= input.length 
-                    && this.isSublist(v.toLowerCase().split("").sort(), input)});
+                    && this.isSublist(input, v.toLowerCase().split("").sort())});
         }
         
         this.count.innerHTML = this.OUT.value.length + " Results";
-        if(!force && this.OUT.value.length > 15_000){return}
+        if(this.OUT.value.length > 15_000 && !force){return}
 
         this.OUT.div.innerHTML = "";
         for(let word of this.OUT.value){
@@ -174,18 +174,19 @@ class Anagram extends Tab{
         }
     }
 
-    isSublist(sup, sub){
+    isSublist(container, content){
+        //does content fit into container?
         var i, j;
-        for (i=0,j=0; i<sup.length && j<sub.length;) {
-            if (sup[i] < sub[j]) {
+        for (i=0,j=0; i<container.length && j<content.length;) {
+            if (container[i] < content[j]) {
                 ++i;
-            } else if (sup[i] == sub[j]) {
+            } else if (container[i] == content[j]) {
                 ++i; ++j;
             } else {
                 return false;
             }
         }
-        return j == sub.length;
+        return j == content.length;
     }
 }
 
@@ -566,7 +567,7 @@ class Regex extends Tab{
         this.OUT.value = Words.filter((v)=>{return RegExp(regex, "i").test(v)});
         
         this.count.innerHTML = this.OUT.value.length + " Results";
-        if(!force && this.OUT.value.length > 15_000){return}
+        if(this.OUT.value.length > 15_000 && !force){return}
 
         this.OUT.div.innerHTML = "";
         for(let word of this.OUT.value){
