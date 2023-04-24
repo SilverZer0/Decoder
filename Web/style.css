@@ -54,6 +54,10 @@ textarea{
     padding: 5px;
     border: 1px solid gray;
     border-radius: 3px;
+    /*
+    font-family: monospace;
+    font-size: 13.5px;
+    */
 }
 
 .columns {

@@ -7,7 +7,7 @@ function makeLabel(tab, labelText){
 
 function makeSelect(tab, labelText, ...values){
     var select = document.createElement("select");
-    for(var value of values){
+    for(let value of values){
         var option = document.createElement("option");
         option.innerHTML = value;
         select.add(option);
@@ -99,7 +99,7 @@ class Tab{
 
                 var search = document.createElement("button");
                 search.innerHTML = "Search";
-                search.onclick = ()=>{this.decode()};
+                search.onclick = (e)=>{this.decode(e.altKey)};
                 container.appendChild(search);
 
                 this.count = document.createElement("div");
@@ -146,33 +146,32 @@ class Anagram extends Tab{
         this.type.oninput = ()=>{};
     }
 
-    decode(){
+    decode(force){
         var Words = getWords(this.source.value);
         var input = this.IN.value.toLowerCase().split("").sort();
         switch(this.type.value){
             case "match":
-                this.OUT.value = Words.filter((v)=>{v.length == input.length 
+                this.OUT.value = Words.filter((v)=>{return v.length == input.length 
                     && v.toLowerCase().split("").sort().every((v,i)=>{return v == input[i]})});
                 break;
             case "bigger":
-                this.OUT.value = Words.filter((v)=>{v.length >= input.length 
+                this.OUT.value = Words.filter((v)=>{return v.length >= input.length 
                     && this.isSublist(input, v.toLowerCase().split("").sort())});
                 break;
             case "smaller":
-                this.OUT.value = Words.filter((v)=>{v.length <= input.length 
+                this.OUT.value = Words.filter((v)=>{return v.length <= input.length 
                     && this.isSublist(v.toLowerCase().split("").sort(), input)});
         }
         
-        var div = document.createElement("div");
-        div.classList.add("columns");
-        for(var i of this.OUT.value){
-            var e = document.createElement("span");
-            e.innerHTML = i;
-            div.appendChild(e);
-            div.appendChild(document.createElement("br"));
-        }
         this.count.innerHTML = this.OUT.value.length + " Results";
-        this.OUT.div.innerHTML = div.innerHTML;
+        if(!force && this.OUT.value.length > 15_000){return}
+
+        this.OUT.div.innerHTML = "";
+        for(let word of this.OUT.value){
+            var span = document.createElement("span");
+            span.innerHTML = word;
+            this.OUT.div.appendChild(span);
+        }
     }
 
     isSublist(sup, sub){
@@ -280,7 +279,7 @@ class Braille extends Tab{
 
         this.resetButton = makeButton(this, "Reset", ()=>{this.reset();this.IN.focus()});
         this.char = document.createElement("div");
-        for(var i=0;i<6;i++){
+        for(let i=0;i<6;i++){
             if(i%3==0){
                 var div = document.createElement("div")
                 div.style = "display:inline-block;"
@@ -300,7 +299,7 @@ class Braille extends Tab{
             this.submitButton.disabled = this.reverse.checked;
             this.resetButton.disabled = this.reverse.checked;
             this.IN.readOnly = !this.reverse.checked;
-            for(var dot of document.getElementsByClassName("braille-dot")){
+            for(let dot of document.getElementsByClassName("braille-dot")){
                 dot.disabled = this.reverse.checked
             }
             this.reset();
@@ -393,7 +392,7 @@ class Braille extends Tab{
     }
 
     reset(){
-        for(var dot of document.getElementsByClassName("braille-dot")){
+        for(let dot of document.getElementsByClassName("braille-dot")){
             dot.checked = false;
         }
     }
@@ -425,7 +424,7 @@ class Caesar extends Tab{
         var text = this.IN.value;
         if(rot == 0){
             this.OUT.value = "";
-            for(var i=1;i<26;i++){
+            for(let i=1;i<26;i++){
                 this.OUT.value += "_".repeat(47) + "Rot:" + i +"_".repeat(47+(i<10))
                  + "\n" + this.caesar(text, i) + "\n\n";
             }
@@ -468,7 +467,7 @@ class Filter extends Tab{
             case "index (no spaces)":
                 var newData = [];
                 i = 1;
-                for(var char of data){
+                for(let char of data){
                     if("\n\r\t ".indexOf(char) != -1){
                         newData.push(char)
                     }else{
@@ -557,7 +556,7 @@ class Regex extends Tab{
         this.type.oninput = ()=>{};
     }
 
-    decode(){
+    decode(force){
         this.count.innerHTML = "Loading ...";
         var Words = getWords(this.source.value);
         var regex = this.IN.value;
@@ -565,17 +564,16 @@ class Regex extends Tab{
             regex = "^" + regex + "$";
         }
         this.OUT.value = Words.filter((v)=>{return RegExp(regex, "i").test(v)});
-
-        var div = document.createElement("div");
-        div.classList.add("columns");
-        for(var i of this.OUT.value){
-            var e = document.createElement("span");
-            e.innerHTML = i;
-            div.appendChild(e);
-            div.appendChild(document.createElement("br"));
-        }
+        
         this.count.innerHTML = this.OUT.value.length + " Results";
-        this.OUT.div.innerHTML = div.innerHTML;
+        if(!force && this.OUT.value.length > 15_000){return}
+
+        this.OUT.div.innerHTML = "";
+        for(let word of this.OUT.value){
+            var span = document.createElement("span");
+            span.innerHTML = word;
+            this.OUT.div.appendChild(span);
+        }
     }
 }
 
@@ -671,10 +669,10 @@ class Info extends Tab{
     */ 
 }
 
-var WordsEng;
+var WordsEng = null;
 fetch("http://sudi.de/Decoder/wordsEng.txt").then(
     response => response.text()).then(data => {
-    WordsEng = data.split('\n');
+    WordsEng =  data.split('\n');
 });
 
 function getWords(source){
@@ -689,10 +687,10 @@ function getWords(source){
 }
 
 function loadTab(event){
-    for (var tab of document.getElementById("tab-content").children) {
+    for (let tab of document.getElementById("tab-content").children) {
         tab.classList.remove("active");
     }
-    for (button of document.getElementById("tabbar").children) {
+    for (let button of document.getElementById("tabbar").children) {
         button.classList.remove("active");
     }
     var tab = document.getElementById(event.currentTarget.id.split("-")[0]);
@@ -711,7 +709,7 @@ const Tabs = [
 ]
 
 function tabs(){
-    for(var [i, o] of Tabs.entries()){
+    for(let [i, o] of Tabs.entries()){
         console.log(`${i} ${o.constructor.name}`);
     }
 }
@@ -723,4 +721,12 @@ tabs();
  * Braille Cursor
  * Info
  * -> rewrite in html?
+ * Anagram/Regex better OUT for big result length (better render speed)
+ * Regex speed tests
+ Query |results|time|render|
+.*     | 466550|  - |      |
+s.*    |  50571|  - | 24000|
+r.*    |  21286|3000|  4300|
+w.*    |  11672| 625|   -  |
+[qxy].*|   5567| 250|   -  |
 */
