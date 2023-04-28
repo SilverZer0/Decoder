@@ -39,6 +39,7 @@ body > * {
 
 textarea{
     font-family: BraileSpace, monospace;
+    font-size: 14px;
     resize: none;
     border-radius: 3px;
 }

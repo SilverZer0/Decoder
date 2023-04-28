@@ -710,6 +710,7 @@ const Tabs = [
 ]
 
 function tabs(){
+    console.clear();
     for(let [i, o] of Tabs.entries()){
         console.log(`${i} ${o.constructor.name}`);
     }
