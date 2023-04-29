@@ -611,7 +611,7 @@ class Tapcode extends Tab{
         }else{
             var data = this.IN.value.replaceAll("\n"," \n ").split(" ");
             data = data.map((value)=>{
-                if("\n\r\t ".includes(v)){return value}
+                if("\n\r\t ".includes(value)){return value}
                 if(value.length != 2){return "_"}
                 return this.ABC[(value[this.switchXY.checked+0] * 1 - 1) * 5 
                     + value[!this.switchXY.checked+0] * 1 -1] || "_";
@@ -723,6 +723,10 @@ tabs();
  * Braille Cursor
  * Info
  * -> rewrite in html?
+ * Filter add leave only index
+ * regex/anagram/new col-OUT similar: find words with x steps to input (steps dedermined by some f())
+ * Morse add button for switch dit & dah
+ * col-OUT button copy to clipboard
  * Anagram/Regex better OUT for big result length (better render speed)
  * Regex speed tests
  Query |results|time|render|
