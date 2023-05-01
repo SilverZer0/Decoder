@@ -8,11 +8,18 @@ body > * {
     margin: auto;
 }
 
+tab-content {
+    display: block;
+}
+
+.hidden{
+    display: none;
+}
+
 #tabbar {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    padding: 0 1.5;
 }
   
 #tabbar button {
@@ -28,12 +35,22 @@ body > * {
 #tabbar button.active {
     background-color: #ccc;
 }
-  
-#tab-content > div{
+
+#tabbar button .tooltip {
     display: none;
+    position: absolute;
+
+    background-color:#555;
+    color: #fff;
+    text-align: center;
+
+    padding: 5px;
+    border-radius: 5px;
+
+    transform: translate(-53px, 15px);
 }
 
-#tab-content > div.active {
+#tabbar button.active:hover .tooltip {
     display: block;
 }
 
@@ -48,7 +65,7 @@ textarea{
     margin-top: 15px;
 }
 
-.columns-container{
+.container{
     height: 765px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -74,13 +91,13 @@ textarea{
     direction: rtl;
 }
 
-.options {
+tab-settings {
     display: flex;
     justify-content: space-around;
     height: 50px;
 }
 
-.options > *{
+tab-settings > *{
     align-self: center;
     margin: 0px 10px;
 }
@@ -102,4 +119,17 @@ textarea{
 
 .braille-dot:checked {
     background-color: black;
+}
+
+#info * {
+    max-width: 754px;
+    margin: auto;
+}
+
+#info > div > div {
+    margin-left: 4ch;
+}
+
+#info > div > div > div{
+    margin-left: 2ch;
 }

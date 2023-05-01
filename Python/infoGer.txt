@@ -6,9 +6,9 @@ Allgemeines
   IN: das obere Textfeld
     Annagram/Regex: die Eingabe vor dem Such-Knopf
   OUT: das untere Textfeld
-    Annagramm/Regex: die vier unteren Textfelder
+    Anagram/Regex: die vier unteren Textfelder
 
-Annagramm
+Anagram
   Find Wörter, die die gleichen Buchstaben (oder weniger/mehr) als IN haben
 
   Search: startet den Such-prozess; Dies kann einige Sekunden dauern

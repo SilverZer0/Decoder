@@ -4,11 +4,11 @@ General things
     some fields only accept certain values (like only numbers)
 
   IN: the upper text-box
-    Annagram/Regex: the input before the search-button
+    Anagram/Regex: the input before the search-button
   OUT: the lower text-box
-    Annagram/Regex: the four lower text-boxes
+    Anagram/Regex: the four lower text-boxes
 
-Annagram
+Anagram
   Find Words that share the same letters (or less/more) than IN
 
   Search: start the searching process; this can take a few seconds

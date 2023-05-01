@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="de">
     <head>
         <meta charset="utf-8">
@@ -8,7 +9,194 @@
     </head>
     <body>
         <div id="tabbar"></div>
-        <div id="tab-content"></div>
+        <div id="tab-content">
+            <tab-content id="info">
+                <tab-settings></tab-settings>
+                <div class="container">
+                    <span id="info-top"></span>
+                    <h2 class="en">General</h2>
+                    <h2 class="de">Allgemeines</h2>
+                    <div>
+                        <b>IN</b>
+                        <span class="en">: the upper textarea OR for Anagram/Regex the search-input</span>
+                        <span class="de">: Das obere Eingabefeld ODER für Anagram/Regex das Suchfeld</span>
+                        <br>
+                        <b>OUT</b>
+                        <span class="en">: the lower textarea OR for Anagram/Regex the columns below</span>
+                        <span class="de">: Das untere Eingabefeld ODER für Anagram/Regex die Spalten unten</span>
+                        <br>
+                        <a class="en" href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Help</a>
+                        <a class="de" href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Hilfe</a>
+                    </div><br>
+                    <h2 id="Anagram-info">Anagram</h2>
+                    <div>
+                        <span class="en">Find Words that share the same letters (or less/more) than IN</span>
+                        <span class="de">Finde Wörter die die gleichen (oder mehr/weniger) Buchstaben wie IN haben</span>
+                        <br><br>
+                        <b>Search / Enter-key</b>
+                        <span class="en">: start searching for matching words; Enter only works inside IN</span>
+                        <span class="de">: Started die Suche nach passenden Würtern; Enter funktioniert nur in IN</span>
+                        <br>
+                        <b>Wordlist</b>
+                        <span class="en">: Choose the source of possible words</span>
+                        <span class="de">: Wähle eine Quelle von möglichen Wörtern</span>
+                        <br>
+                        <b>type</b>
+                        <div>
+                            <b>match</b>
+                            <span class="en">: exact match (ab => ab, ba)</span>
+                            <span class="de">: exacte Übereinstimmung (ab => ab, ba)</span>
+                            <br>
+                            <b>bigger</b>
+                            <span class="en">: matched words are bigger than input (ab => ab, abc, ...)</span>
+                            <span class="de">: übereinstimmende Wörter sind länger als IN (ab => ab, abc, ...)</span>
+                            <br>
+                            <b>smaller</b>
+                            <span class="en">: matched words are smaller than input (ab => ab, a, b, ...)</span>
+                            <span class="de">: übereinstimmende Wörter sind kürzer als IN (ab => ab, a, b, ...)</span>
+                            <br>
+                        </div>
+                    </div><br>
+                    <h2 id="Ascii-info">Ascii</h2>
+                    <div>
+                        <span class="en">Convert between numbers and the respective letters</span>
+                        <span class="de">Wandelt Zahlen in den jeweiligen Buchstaben um</span>
+                        <br><br>
+                        <b>type</b>
+                        <div>
+                            <b>1-26</b><span>: A = 1, Z = 26, a = 1, z = 26</span><br>
+                            <b>ascii</b><span>: A = 65, Z = 90, a = 97, z = 122</span><br>
+                            <b>dec</b>
+                            <span class="en">: decimal (base ten)</span>
+                            <span class="de">: Dezimal (Zehnersystem)</span>
+                            <br>
+                            <b>bin</b>
+                            <span class="en">: binary (base two)</span>
+                            <span class="de">: Binär (Zweiersystem)</span>
+                            <br>
+                            <b>hex</b>
+                            <span class="en">: hexadecimal (base sixteen)</span>
+                            <span class="en">: Hexadezimal (Sechzehnersystem)</span>
+                        </div>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT; if ticked encode (letters to numbers)</span>
+                        <span class="de">: Tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (Buchstaben zu Zahlen) </span>
+                    </div><br>
+                    <h2 id="Atbash-info">Atbash</h2>
+                    <div>
+                        <span>A -> Z, B -> Y, ... , Y -> B, Z -> A</span>
+                        <br><br>
+                        <b>switch</b>
+                        <span class="en">: switch IN and OUT</span>
+                        <span class="de">: Tauscht IN und OUT</span>
+                    </div>
+                    <br><h2 id="Base-info">Base</h2>
+                    <div>
+                        <span class="en">Change base of numbers (seperated by a space)</span>
+                        <span class="de">Wandel Zahlen in andere Basis um (Zahlen getrennt durch Leerzeichen)</span>
+                        <br><br>
+                        <b>IN-Base</b>
+                        <span class="en">: base of the numbers in IN</span>
+                        <span class="de">: Basis der Zahlens in IN</span>
+                        <br>
+                        <b>OUT-Base</b>
+                        <span class="en">: base of the number in OUT</span>
+                        <span class="de">: Basis der Zahlen in OUT</span>
+                        <br>
+                    </div><br>
+                    <h2 info="Braille-info">Braille</h2>
+                    <div>
+                        <span class="en">Writes and translates Braille</span>
+                        <span class="de">Schreibt und Übersetzt Braille</span>
+                        <br><br>
+                        <b class="en">Writing</b>
+                        <b class="de">Schreiben</b>
+                        <div>
+                            <span class="en">Click on the dots to toggle them or use Numpad-keys as follows:</span>
+                            <span class="de">Die Punkte können durch das Klicken oder dem Numpad (wie folgend) an- & ausgeschaltet werden </span>
+                            <br>
+                            <span>8 9</span><br>
+                            <span>5 6</span><br>
+                            <span>2 3</span><br>
+                        </div>
+                        <b>Submit / Numpad-Enter</b>
+                        <span class="en">Places the displayed charater into IN</span>
+                        <span class="de">Plaziert das gezeigte Zeichen in IN</span>
+                        <br>
+                        <b>Reset / Numpad-0</b>
+                        <span class="en">: Clear all dots</span>
+                        <span class="en">: Entfert alle Punkte</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT; if ticked encode (letters to Braille)</span>
+                        <span class="de">: Tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (Buchstaben zu Braille)</span>
+                    </div><br>
+                    <h2 id="Ceasar-info">Ceasar</h2>
+                    <div>
+                        <span class="en">Shift letters by rotation</span>
+                        <span class="de">Buchstaben werden um Rotation vergeschoben</span>
+                        <br><br>
+                        <b>rotation</b>
+                        <span class="en">: amount by which letters are shifted; 0 returns all (1-25) rotations</span>
+                        <span class="de">: Anzahl der Buchstaben die verschoben wird; 0 gibt alle (1-25) Rotationen zurück</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT;  if ticked encode (subtract Rotation)</span>
+                        <span class="de">: Tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (subtrahiere Rotation)</span>
+                    </div><br>
+                    <h2 id="Filter-info">Filter</h2>
+                    <div>
+                        <span class="en"></span>
+                        <span class="de"></span>
+                        <br><br>
+                        <b></b>
+                        <span class="en"></b>
+                        <span class="de"></b>
+                        <br>
+                    </div><br>
+                    <h2 id="Morse-info">Morse</h2>
+                    <div>
+                        <span class="en"></span>
+                        <span class="de"></span>
+                        <br><br>
+                        <b></b>
+                        <span class="en"></b>
+                        <span class="de"></b>
+                        <br>
+                    </div><br>
+                    <h2 id="Regex-info">Regex</h2>
+                    <div>
+                        <span class="en"></span>
+                        <span class="de"></span>
+                        <br><br>
+                        <b></b>
+                        <span class="en"></b>
+                        <span class="de"></b>
+                        <br>
+                    </div><br>
+                    <h2 id="Vigenere-info">Vigenere</h2>
+                    <div>
+                        <span class="en"></span>
+                        <span class="de"></span>
+                        <br><br>
+                        <b></b>
+                        <span class="en"></b>
+                        <span class="de"></b>
+                        <br>
+                    </div><br>
+                    <h2 id="Regex-help"><span class="en">Regex Help</span><span class="de">Regex Hilfe</span></h2>
+                    <div>
+                        <span class="en"></span>
+                        <span class="de"></span>
+                        <br><br>
+                        <b></b>
+                        <span class="en"></b>
+                        <span class="de"></b>
+                        <br>
+                    </div><br>
+                </div>
+            </tab-content>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>
