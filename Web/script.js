@@ -1,24 +1,24 @@
 function makeLabel(tab, labelText){
-    var label = document.createElement("label");
+    let label = document.createElement("label");
     label.innerHTML = labelText;
-    tab.tab.getElementsByClassName("options")[0].appendChild(label);
+    tab.tab.getElementsByTagName("tab-settings")[0].appendChild(label);
     return label;
 }
 
 function makeSelect(tab, labelText, ...values){
-    var select = document.createElement("select");
+    let select = document.createElement("select");
     for(let value of values){
-        var option = document.createElement("option");
+        let option = document.createElement("option");
         option.innerHTML = value;
         select.add(option);
     }
-    select.oninput=()=>{tab.decode();tab.IN.focus()};
+    select.oninput = ()=>{tab.decode();tab.IN.focus()};
     if(labelText){makeLabel(tab, labelText).appendChild(select)};
     return select;
 }
 
 function makeTextInput(tab, labelText, defaultValue, validation){
-    var textInput = document.createElement("input");
+    let textInput = document.createElement("input");
     textInput.type = "text";
     textInput.value = defaultValue;
     textInput.savedValue = defaultValue;
@@ -37,7 +37,7 @@ function makeTextInput(tab, labelText, defaultValue, validation){
 }
 
 function makeCheckbox(tab, labelText){
-    var checkbox = document.createElement("input");
+    let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.onclick = ()=>{tab.decode();tab.IN.focus();};
     if(labelText){makeLabel(tab, labelText).appendChild(checkbox)};
@@ -54,19 +54,11 @@ function makeReverse(tab){
 }
 
 function makeButton(tab, text, onclickFunction){
-    var button = document.createElement("button");
+    let button = document.createElement("button");
     button.innerHTML = text;
     button.onclick = onclickFunction;
-    tab.tab.getElementsByClassName("options")[0].appendChild(button);
+    tab.tab.getElementsByTagName("tab-settings")[0].appendChild(button);
     return button
-}
-
-function makeSwitchButton(tab){
-    return makeButton(tab, "switch", ()=>{
-        tab.IN.value = tab.OUT.value;
-        tab.decode();
-        tab.IN.focus();
-    });
 }
 
 class Tab{
@@ -74,20 +66,30 @@ class Tab{
         this.tabbutton = document.createElement("button");
         this.tabbutton.id = name + "-button";
         this.tabbutton.innerHTML = name;
-        this.tabbutton.onclick = loadTab;
+        this.tabbutton.onclick = ()=>{
+            if(this.tabbutton.classList.contains("active")){
+                jumpToInfo(this.tabbutton.id.replace("-button", "-info"))
+                return;
+            }
+            loadTab(this)
+        };
         tabbar.appendChild(this.tabbutton);
 
-        this.tab = document.createElement("div");
+        let tooltip = document.createElement("span");
+        tooltip.className = "tooltip";
+        tooltip.innerHTML = "Click again to jump to Help";
+        this.tabbutton.appendChild(tooltip)
+
+        this.tab = document.createElement("tab-content");
         this.tab.id = name;
 
-        var options = document.createElement("div");
-        options.classList.add("options");
-        this.tab.appendChild(options);
+        var settings = document.createElement("tab-settings")
+        this.tab.appendChild(settings);
         switch(name){
             case "Anagram":
             case "Regex":
                 var container = document.createElement("div");
-                options.appendChild(container);
+                settings.appendChild(container);
 
                 this.IN = document.createElement("input");
                 this.IN.type = "text";
@@ -105,26 +107,27 @@ class Tab{
                 this.count = document.createElement("div");
                 this.count.innerHTML = "0 Results";
                 this.count.style = "width: 100px;text-align: right;"
-                options.appendChild(this.count);
+                settings.appendChild(this.count);
+
+                this.copy = makeButton(this, "copy", ()=>{navigator.clipboard.writeText(this.OUT.value.join("\n"))})
 
                 this.OUT = {};
                 this.OUT.div = document.createElement("div");
 				this.OUT.div.classList.add("columns");
                 this.OUT.value = [];
                 var outerDiv = document.createElement("div");
-                outerDiv.classList.add("columns-container");
+                outerDiv.classList.add("container");
                 outerDiv.appendChild(this.OUT.div);
                 this.tab.appendChild(outerDiv);
                 break;
-            case "Info":
-                break;
+            break;
             default:
                 this.IN = document.createElement("textarea");
                 this.IN.addEventListener("input", ()=>{this.decode()});
                 this.IN.rows = 20;
                 this.IN.cols = 105;
-                this.IN.classList.add("margin-top", "IN");
-                this.tab.insertBefore(this.IN, options);
+                this.IN.classList.add("margin-top");
+                this.tab.insertBefore(this.IN, settings);
 
                 this.OUT = document.createElement("textarea");
                 this.OUT.rows = 30;
@@ -164,9 +167,10 @@ class Anagram extends Tab{
         }
         
         this.count.innerHTML = this.OUT.value.length + " Results";
-        if(this.OUT.value.length > 15_000 && !force){return}
-
         this.OUT.div.innerHTML = "";
+
+        if(this.OUT.value.length > 10_000 && !force){return}
+        
         for(let word of this.OUT.value){
             var span = document.createElement("span");
             span.innerHTML = word;
@@ -201,7 +205,7 @@ class Ascii extends Tab{
         var nonAscii = this.type.value.includes("1-26");
         var base = {"bin":2, "dec":10, "hex":16}[this.type.value.split(" ")[1]];
         if(this.reverse.checked){
-            this.OUT.value = this.IN.value.split("").map((v) => {
+            this.OUT.value = this.IN.value.toUpperCase().split("").map((v) => {
                 return "\n\r\t ".includes(v) ? v : 
                 (v.charCodeAt(0) - 64 * nonAscii).toString(base).padStart(8 * (base == 2), "0");
             }).join(" ").replaceAll(" \n ", "\n");
@@ -221,7 +225,11 @@ class Ascii extends Tab{
 class Atbash extends Tab{
     constructor(){
         super("Atbash");
-        makeSwitchButton(this);
+        makeButton(this, "switch", ()=>{
+            tab.IN.value = tab.OUT.value;
+            tab.decode();
+            tab.IN.focus();
+        })
         this.alphabet = new Map([
             ['A', 'Z'], ['B', 'Y'], ['C', 'X'], ['D', 'W'], ['E', 'V'],
             ['F', 'U'], ['G', 'T'], ['H', 'S'], ['I', 'R'], ['J', 'Q'],
@@ -248,11 +256,14 @@ class Base extends Tab{
     constructor(){
         super("Base");
         this.IN_Base = makeTextInput(this, "IN-Base: ", "2", "^([1-9]|[12][0-9]|3[0-6])$");
-        makeSwitchButton(this).addEventListener('click', ()=>{
+        makeButton(this, "switch", ()=>{
             this.IN_Base.value = this.OUT_Base.value;
             this.OUT_Base.value = this.IN_Base.savedValue;
             this.IN_Base.savedValue = this.IN_Base.value;
             this.OUT_Base.savedValue = this.OUT_Base.value;
+            this.IN.value = this.OUT.value;
+            this.decode();
+            this.IN.focus();
         })
         this.OUT_Base = makeTextInput(this, "OUT-Base:", "10", "^([1-9]|[12][0-9]|3[0-6])$");
     }
@@ -293,7 +304,7 @@ class Braille extends Tab{
             div.appendChild(dot);
             div.appendChild(document.createElement("br"));
         }
-        this.tab.getElementsByClassName("options")[0].appendChild(this.char);
+        this.tab.getElementsByTagName("tab-settings")[0].appendChild(this.char);
         //this.type = makeSelect(this, "input ", "895623", "784512");
         makeReverse(this);
         this.reverse.addEventListener("click", ()=>{
@@ -445,7 +456,8 @@ class Caesar extends Tab{
 class Filter extends Tab{
     constructor(){
         super("Filter");
-        this.type = makeSelect(this, null, "index (spaces)", "index (no spaces)", "character")
+        this.type = makeSelect(this, null, "delete index (space)", "delete index (no space)", 
+            "leave index (space)", "leave index (no space)","character");
         this.filter = makeTextInput(this, null, "", {toString: ()=>{
             if(this.type.value == "character"){
                 return ".+"
@@ -455,24 +467,28 @@ class Filter extends Tab{
         var div = document.createElement("div");
         div.appendChild(this.type);
         div.appendChild(this.filter);
-        this.tab.getElementsByClassName("options")[0].appendChild(div);
+        this.tab.getElementsByTagName("tab-settings")[0].appendChild(div);
     }
 
     decode(){
         var data = this.IN.value.split("");
         var filter = this.filter.value
         switch(this.type.value){
-            case "index (spaces)":
-                data = data.filter((v, i)=>{return (i+1)%filter});
+            case "delete index (space)":
+            case "leave index (space)":
+                data = data.filter((v, i)=>{
+                    return Boolean((i+1) % filter) ^ (this.type.value == "leave index (space)")
+                });
                 break;
-            case "index (no spaces)":
+            case "leave index (no space)":
+            case "delete index (no space)":
                 var newData = [];
-                i = 1;
+                let i = 0;
                 for(let char of data){
                     if("\n\r\t ".indexOf(char) != -1){
                         newData.push(char)
                     }else{
-                        if(i % filter){
+                        if(Boolean((i+1) % filter) ^ (this.type.value == "leave index (no space)")){
                             newData.push(char)
                         }
                         i++;
@@ -493,6 +509,9 @@ class Morse extends Tab{
         super("Morse");
         this.dit = makeTextInput(this, "dit (.) ", ".", "^.*$");
         this.dah = makeTextInput(this, "dah (-) ", "-", "^.*$");
+        this.switchDitDah = makeButton(this, ". <=> -", ()=>{
+            [this.dit.value, this.dah.value] = [this.dah.value, this.dit.value];this.decode()
+        });
         this.letterSep = makeTextInput(this, "letter sep ", " ", "^.*$");
         this.wordSep = makeTextInput(this, "word sep ", "/", "^.*$");
         makeReverse(this);
@@ -567,9 +586,10 @@ class Regex extends Tab{
         this.OUT.value = Words.filter((v)=>{return RegExp(regex, "i").test(v)});
         
         this.count.innerHTML = this.OUT.value.length + " Results";
-        if(this.OUT.value.length > 15_000 && !force){return}
-
         this.OUT.div.innerHTML = "";
+
+        if(this.OUT.value.length > 10_000 && !force){return}
+        
         for(let word of this.OUT.value){
             var span = document.createElement("span");
             span.innerHTML = word;
@@ -644,30 +664,43 @@ class Vigenere extends Tab{
     }
 }
 
-class Info extends Tab{
+class Info{
     constructor(){
-        super("Info");
-        this.language = makeSelect(this, "Language/Sprache: ", "English", "Deutsch");
-    }
+        this.tabbutton = document.createElement("button");
+        this.tabbutton.id = "Info-button";
+        this.tabbutton.innerHTML = "Info";
+        this.tabbutton.onclick = ()=>{
+            if(this.tabbutton.classList.contains("active")){
+                document.getElementById("info-top").scrollIntoView();
+                return;
+            }
+            loadTab(this)
+        };
+        tabbar.appendChild(this.tabbutton);
 
-    decode(){
-        //fetch and parse text
+        let tooltip = document.createElement("span");
+        tooltip.className = "tooltip";
+        tooltip.innerHTML = "Click again to jump to the Top";
+        this.tabbutton.appendChild(tooltip)
+
+        this.tab = document.getElementById("info");
+
+        for(let i of this.tab.getElementsByClassName("de")){
+            i.classList.toggle("hidden");
+        }
+
+        let language = makeSelect(this, "Language / Sprache: ", "English", "Deutsch");
+        language.oninput = ()=>{
+            for(let i of this.tab.getElementsByClassName("en")){
+                i.classList.toggle("hidden");
+            }
+            for(let i of this.tab.getElementsByClassName("de")){
+                i.classList.toggle("hidden");
+            }
+        }
+
+        this.IN = this.tab // loadTab needs IN to focus on
     }
-    /*
-    def parse(this, obj, Text):
-        obj.tag_optionsure("h1", font=("TkFixedFont",15,"bold"))
-        obj.tag_optionsure("h2", font=("TkFixedFont",10,"bold"))
-        for i,o in enumerate(Text.split("\n")):
-            if o == ":
-                continue
-            if o[0] != " ":#headlines
-                obj.tag_add("h1", f"{i+1}.0", f"{i+1}.end")
-            elif ":" in o:
-                if o[2] != " ":#keywords with indent 2
-                    obj.tag_add("h2", f"{i+1}.2", f"{i+1}.{o.index(":")}")
-                else:#keywords with indent 4
-                    obj.tag_add("h2", f"{i+1}.4", f"{i+1}.{o.index(":")}")
-    */ 
 }
 
 var WordsEng = null;
@@ -687,19 +720,6 @@ function getWords(source){
     }
 }
 
-function loadTab(event){
-    for (let tab of document.getElementById("tab-content").children) {
-        tab.classList.remove("active");
-    }
-    for (let button of document.getElementById("tabbar").children) {
-        button.classList.remove("active");
-    }
-    var tab = document.getElementById(event.currentTarget.id.split("-")[0]);
-    tab.classList.add("active");
-    event.currentTarget.classList.add("active");
-    tab.getElementsByClassName("IN")[0].focus();
-}
-
 const tabbar = document.getElementById("tabbar")
 const content = document.getElementById("tab-content")
 const Tabs = [
@@ -716,17 +736,33 @@ function tabs(){
     }
 }
 
+function loadTab(tab){
+    for (let content of document.getElementById("tab-content").children) {
+        content.className = "hidden";
+    }
+    for (let button of document.getElementById("tabbar").children) {
+        button.className = "";
+    }
+    tab.tab.className = "";
+    tab.tabbutton.className = "active";
+    tab.IN.focus();
+}
+
+function jumpToInfo(target){
+    Tabs[11].tabbutton.click();
+    document.getElementById(target).scrollIntoView();
+}
+
+window.addEventListener("hashchange", (event)=>{
+    document.location = event.oldURL;
+})
+
 Tabs[0].tabbutton.click();
 tabs();
 
 /** TODO 
+ * regex/anagram/new col-OUT "similar": find words with x steps to input (steps dedermined by some f())
  * Braille Cursor
- * Info
- * -> rewrite in html?
- * Filter add leave only index
- * regex/anagram/new col-OUT similar: find words with x steps to input (steps dedermined by some f())
- * Morse add button for switch dit & dah
- * col-OUT button copy to clipboard
  * Anagram/Regex better OUT for big result length (better render speed)
  * Regex speed tests
  Query |results|time|render|
