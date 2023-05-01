@@ -753,10 +753,6 @@ function jumpToInfo(target){
     document.getElementById(target).scrollIntoView();
 }
 
-window.addEventListener("hashchange", (event)=>{
-    document.location = event.oldURL;
-})
-
 Tabs[0].tabbutton.click();
 tabs();
 

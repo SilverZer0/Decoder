@@ -121,9 +121,8 @@ tab-settings > *{
     background-color: black;
 }
 
-#info * {
-    max-width: 754px;
-    margin: auto;
+#info h2 {
+    margin: 0 0 0 3px;
 }
 
 #info > div > div {

@@ -93,7 +93,7 @@ Regex
     bigger: Wörter in OUT sind größer als IN (a[bc]d -> abd, acd, xabdx, ...)
 
 Vigenere
-  Addirene einen Schlüssel zu IN [B(2)+D(4) = F(6)]
+  Addiere einen Schlüssel zu IN [B(2)+D(4) = F(6)]
 
   key: der Schlüssel, der zu IN addiert wird
   reverse: Tauscht IN und OUT + 
