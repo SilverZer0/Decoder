@@ -638,15 +638,3 @@ for i,o in enumerate(Tabs[:-1]):
     print(f'{i:2} {o.__class__.__name__}')
 
 root.mainloop()
-
-# TODO
-#? python Shell
-# analyser
-#   tells which encoding it might be
-#   box [text, list, grid] (all as one, each line as one,
-#      items are seperated by \n and sep-char (' ','|',','))
-#   search web (google) for item 
-# braille curser
-#   move cursor (mouse / arrow keys)
-#   -> and entf key
-# braille linebreak

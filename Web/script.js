@@ -756,11 +756,7 @@ function jumpToInfo(target){
 Tabs[0].tabbutton.click();
 tabs();
 
-/** TODO 
- * regex/anagram/new col-OUT "similar": find words with x steps to input (steps dedermined by some f())
- * Braille Cursor
- * Anagram/Regex better OUT for big result length (better render speed)
- * Regex speed tests
+/* Regex speed tests
  Query |results|time|render|
 .*     | 466550|  - |      |
 s.*    |  50571|  - | 24000|

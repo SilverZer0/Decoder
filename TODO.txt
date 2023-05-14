@@ -1,0 +1,13 @@
+general
+ - new tab: similar (col-OUT)
+   - find words similar by steps
+   - option: steps
+ - braille cursor
+   - move with arrow-keys
+   - add entf-key
+ - braille newline (letter-ENTER)
+ - analyser
+   - decode automaticlly
+   - option: dimension [all, list, grid]
+web
+ -? better col-OUT (render for many words takes to long and causes lag)
