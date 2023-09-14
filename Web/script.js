@@ -704,7 +704,7 @@ class Info{
 }
 
 var WordsEng = null;
-fetch("http://sudi.de/Decoder/wordsEng.txt").then(
+fetch("./wordsEng.txt").then(
     response => response.text()).then(data => {
     WordsEng =  data.split('\n');
 });

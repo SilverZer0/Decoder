@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="#">
+        <link rel="stylesheet" href="style.css">
+        <title>Decoder</title>
+    </head>
+    <body>
+        <div id="tabbar"></div>
+        <div id="tab-content">
+            <tab-content id="info">
+                <tab-settings></tab-settings>
+                <div class="container">
+                    <span id="info-top"></span>
+                    <h2 class="en">General</h2>
+                    <h2 class="de">Allgemeines</h2>
+                    <div>
+                        <b>IN</b>
+                        <span class="en">: the upper textarea OR for Anagram/Regex the search-input</span>
+                        <span class="de">: das obere Eingabefeld ODER für Anagram/Regex das Suchfeld</span>
+                        <br>
+                        <b>OUT</b>
+                        <span class="en">: the lower textarea OR for Anagram/Regex the columns below</span>
+                        <span class="de">: das untere Eingabefeld ODER für Anagram/Regex die Spalten unten</span>
+                        <br>
+                        <a class="en" href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Help</a>
+                        <a class="de" href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Hilfe</a>
+                    </div><br>
+                    <h2 id="Anagram-info">Anagram</h2>
+                    <div>
+                        <span class="en">Find Words that share the same letters (or less/more) than IN</span>
+                        <span class="de">Finde Wörter die die gleichen (oder mehr/weniger) Buchstaben wie IN haben</span>
+                        <br><br>
+                        <b>Search / Enter-key</b>
+                        <span class="en">: start searching for matching words; Enter only works inside IN</span>
+                        <span class="de">: started die Suche nach passenden Wörtern; Enter funktioniert nur in IN</span>
+                        <br>
+                        <b>Wordlist</b>
+                        <span class="en">: choose the source of possible words</span>
+                        <span class="de">: wähle eine Quelle von möglichen Wörtern</span>
+                        <br>
+                        <b>type</b>
+                        <div>
+                            <b>match</b>
+                            <span class="en">: exact match (ab => ab, ba)</span>
+                            <span class="de">: exacte Übereinstimmung (ab => ab, ba)</span>
+                            <br>
+                            <b>bigger</b>
+                            <span class="en">: matched words are bigger than input (ab => ab, abc, ...)</span>
+                            <span class="de">: übereinstimmende Wörter sind länger als IN (ab => ab, abc, ...)</span>
+                            <br>
+                            <b>smaller</b>
+                            <span class="en">: matched words are smaller than input (ab => ab, a, b, ...)</span>
+                            <span class="de">: übereinstimmende Wörter sind kürzer als IN (ab => ab, a, b, ...)</span>
+                            <br>
+                        </div>
+                    </div><br>
+                    <h2 id="Ascii-info">Ascii</h2>
+                    <div>
+                        <span class="en">Convert between numbers and the respective letters</span>
+                        <span class="de">Wandelt Zahlen in den jeweiligen Buchstaben um</span>
+                        <br><br>
+                        <b>type</b>
+                        <div>
+                            <b>1-26</b><span>: A = 1, Z = 26, a = 1, z = 26</span><br>
+                            <b>ascii</b><span>: A = 65, Z = 90, a = 97, z = 122</span><br>
+                            <b>dec</b>
+                            <span class="en">: decimal (base ten)</span>
+                            <span class="de">: Dezimal (Zehnersystem)</span>
+                            <br>
+                            <b>bin</b>
+                            <span class="en">: binary (base two)</span>
+                            <span class="de">: Binär (Zweiersystem)</span>
+                            <br>
+                            <b>hex</b>
+                            <span class="en">: hexadecimal (base sixteen)</span>
+                            <span class="en">: Hexadezimal (Sechzehnersystem)</span>
+                        </div>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT; if ticked encode (letters to numbers)</span>
+                        <span class="de">: tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (Buchstaben zu Zahlen) </span>
+                    </div><br>
+                    <h2 id="Atbash-info">Atbash</h2>
+                    <div>
+                        <span>A =>  Z, B => Y, ... , Y => B, Z => A</span>
+                        <br><br>
+                        <b>switch</b>
+                        <span class="en">: switch IN and OUT</span>
+                        <span class="de">: tauscht IN und OUT</span>
+                    </div>
+                    <br><h2 id="Base-info">Base</h2>
+                    <div>
+                        <span class="en">Change base of numbers (seperated by a space)</span>
+                        <span class="de">Wandel Zahlen in andere Basis um (Zahlen getrennt durch Leerzeichen)</span>
+                        <br><br>
+                        <b>IN-Base</b>
+                        <span class="en">: base of the numbers in IN</span>
+                        <span class="de">: Basis der Zahlens in IN</span>
+                        <br>
+                        <b>OUT-Base</b>
+                        <span class="en">: base of the number in OUT</span>
+                        <span class="de">: Basis der Zahlen in OUT</span>
+                        <br>
+                        <b>switch</b>
+                        <span class="en">: switch IN & OUT and IN-Base & OUT-Base</span>
+                        <span class="de">: Tauscht IN & OUT und IN-Base & OUT-Base</span>
+                    </div><br>
+                    <h2 id="Braille-info">Braille</h2>
+                    <div>
+                        <span class="en">Writes and translates Braille</span>
+                        <span class="de">Schreibt und Übersetzt Braille</span>
+                        <br><br>
+                        <b class="en">Writing</b>
+                        <b class="de">Schreiben</b>
+                        <div>
+                            <span class="en">Click on the dots to toggle them or use Numpad-keys as follows:</span>
+                            <span class="de">Die Punkte können durch das Klicken oder dem Numpad (wie folgend) an- & ausgeschaltet werden </span>
+                            <br>
+                            <span>8 9</span><br>
+                            <span>5 6</span><br>
+                            <span>2 3</span><br>
+                        </div>
+                        <b>Submit / Numpad-Enter</b>
+                        <span class="en">: places the displayed charater into IN</span>
+                        <span class="de">: plaziert das gezeigte Zeichen in IN</span>
+                        <br>
+                        <b>Reset / Numpad-0</b>
+                        <span class="en">: clear all dots</span>
+                        <span class="en">: entfert alle Punkte</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT; if ticked encode (letters to Braille)</span>
+                        <span class="de">: tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (Buchstaben zu Braille)</span>
+                    </div><br>
+                    <h2 id="Caesar-info">Caesar</h2>
+                    <div>
+                        <span class="en">Shift letters by rotation</span>
+                        <span class="de">Buchstaben werden um Rotation vergeschoben</span>
+                        <br><br>
+                        <b>rotation</b>
+                        <span class="en">: amount by which letters are shifted; 0 returns all (1-25) rotations</span>
+                        <span class="de">: Anzahl der Buchstaben die verschoben wird; 0 gibt alle (1-25) Rotationen zurück</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT;  if ticked encode (subtract Rotation)</span>
+                        <span class="de">: Tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (subtrahiere Rotation)</span>
+                    </div><br>
+                    <h2 id="Filter-info">Filter</h2>
+                    <div>
+                        <span class="en">Removes characters based on an index or character</span>
+                        <span class="de">Entfernt Zeichen basierend auf einem Index oder Zeichen</span>
+                        <br><br>
+                        <b>remove index</b>
+                        <span class="en">: remove every x-th character</span>
+                        <span class="de">: entfernt jedes x-te Zeichen</span>
+                        <br>
+                        <b>leave index</b>
+                        <span class="en">: leaves only every x-th character</span>
+                        <span class="de">: lässt nur jedes x-te Zeichen übrig</span>
+                        <br>
+                        <b>no spaces</b>
+                        <span class="en">: skip spaces when counting x</span>
+                        <span class="de">: überspringe Leerzeichen beim Zählen für x</span>
+                        <br>
+                        <b>character</b>
+                        <span class="en">: remove the character from IN</span>
+                        <span class="de">: entfernt das Zeichen von IN </span>
+                        <br>
+                        <i class="en">empty</i><i class="de">leer</i>
+                        <span class="en">: the index OR the character</span>
+                        <span class="de">: der Index ODER das Zeichen</span>
+                    </div><br>
+                    <h2 id="Morse-info">Morse</h2>
+                    <div>
+                        <span class="en">translates morse</span>
+                        <span class="de">Übersetzt Morse</span>
+                        <br><br>
+                        <b>dit (.)</b>
+                        <span class="en">: short signal (1 dit)</span>
+                        <span class="de">: kurzes Signal (1 dit)</span>
+                        <br>
+                        <b>dah (-)</b>
+                        <span class="en">: long signal (3 dits)</span>
+                        <span class="de">: langes Signal (3 dits)</span>
+                        <br>
+                        <b>|. &lt;=> -|</b>
+                        <span class="en">: switch dit and dah symbols</span>
+                        <span class="de">: tausche dit und dah Symbole</span>
+                        <br>
+                        <b>letter sep</b>
+                        <span class="en">: seperator between letters (3 dits)</span>
+                        <span class="de">: Trennzeichen zwischen Buchstaben (3 dits)</span>
+                        <br>
+                        <b>word sep</b>
+                        <span class="en">: seperator between words (7 dits)</span>
+                        <span class="de">: Trennzeichen zwischen Wörtern (7 dits)</span>
+                    </div><br>
+                    <h2 id="Regex-info">Regex</h2>
+                    <div>
+                        <span class="en">find words matching a pattern (see 
+                            <a href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Help</a>)
+                        </span>
+                        <span class="de">findet Wörter die einem Muster entsprechen (siehe 
+                            <a href="javascript:void(0);" onclick="jumpToInfo('Regex-help')">Regex Hilfe</a>)
+                        </span>
+                        <br><br>
+                        <b>Search / Enter-key</b>
+                        <span class="en">: start searching for matching words; Enter only works inside IN</span>
+                        <span class="de">: started die Suche nach passenden Würtern; Enter funktioniert nur in IN</span>
+                        <br>
+                        <b>Wordlist</b>
+                        <span class="en">: Choose the source of possible words</span>
+                        <span class="de">: wähle eine Quelle von möglichen Wörtern</span>
+                        <br>
+                        <b>type</b>
+                        <div>
+                            <b>match</b>
+                            <span class="en">: exact match (a.c => abc, adc, ...)</span>
+                            <span class="de">: exacte Übereinstimmung (a.b => abc, adc, ...)</span>
+                            <br>
+                            <b>bigger</b>
+                            <span class="en">: matched words are bigger than input (ab => ab, abc, ...)</span>
+                            <span class="de">: übereinstimmende Wörter sind länger als IN (ab => ab, abc, ...)</span>
+                        </div>
+                    </div><br>
+                    <h2 id="Tapcode-info">Tapcode</h2>
+                    <div>
+                        <span class="en">translate tapcode (also called Polybius code) </span>
+                        <span class="de">Übersetzt tapcode (auch Polybius Code gennant)</span>
+                        <br><br>
+                        <b>abc</b>
+                        <span class="en">: which two letters are combined into one</span>
+                        <span class="de">: welche zwei Buchstaben sind zu einem zusammengeführt</span>
+                        <br>
+                        <b>switch xy</b>
+                        <span class="en">: switches whether x or y is the first number in the number pair</span>
+                        <span class="de">: wechselt ob x oder y die erste Zahl im Zahlenpaar ist</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT;  if ticked encode (letters to number pairs)</span>
+                        <span class="de">: tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (Buchstaben zu Zahlenpaaren)</span>
+                    </div><br>
+                    <h2 id="Vigenere-info">Vigenere</h2>
+                    <div>
+                        <span class="en">add a key to IN (B=2 + D=4 => F=6)</span>
+                        <span class="de">Addiert einen Schlüssel zu IN (B=2 + D=4 => F=6)</span>
+                        <br><br>
+                        <b>key</b>
+                        <span class="en">:the character-sequence that gets added to IN</span>
+                        <span class="de">:die Zeichensequenze die zu IN addiert wird</span>
+                        <br>
+                        <b>reverse</b>
+                        <span class="en">: switch IN and OUT;  if ticked encode (subtract key)</span>
+                        <span class="de">: tauscht IN und OUT; wenn angekreuzt wird verschlüsselt (subtrahiere Schlüssel)</span>
+                    </div><br>
+                    <h2 id="Regex-help"><span class="en">Regex Help</span><span class="de">Regex Hilfe</span></h2>
+                    <div>
+                        <span class="en">use letters and symbols to make a pattern for words to match</span>
+                        <span class="de">Benutze Buchstaben und Symbole um ein Muster zu bilden und damit passende Wörter zu finden</span>
+                        <br><br>
+                        <b class="en">Symbols</b>
+                        <b class="de">Symbole</b>
+                        <div>
+                            <b>.</b>
+                            <span class="en">any character</span>
+                            <span class="de">belibiges Zeichen</span>
+                            <br>
+                            <b>[]</b>
+                            <span class="en">set of characters; counts as one letter <b>[ab] == a or b</b></span>
+                            <span class="de">Zeichengruppe; zählt als ein Buchstabe <b>[ab] == a oder b</b></span>
+                            <br>
+                            <b>[^]</b>
+                            <span class="en">negated [] </b>[^ab] == anything that isn't a or b</b></span>
+                            <span class="de">negiertes [] </b>[^ab] == alles außer a oder b</b></span>
+                            <br>
+                            <b>()</b>
+                            <span class="en">group multiple characters into one token </b>(ab)* => ab, abab, ...</b></span>
+                            <span class="de">groupiere mehere Zeichen in ein Token </b>(ab)* => ab, abab, ...</b></span>
+                            <br>
+                            <b>+</b>
+                            <span class="en">repeat previous tokem one or more times <b>ba+ => ba, baa, ...</b></span>
+                            <span class="de">wiederholt das vorherigen Token ein oder mehrmals <b>ba+ => ba, baa, ...</b></span>
+                            <br>
+                            <b>*</b>
+                            <span class="en">repeat previous token zero or more times <b>ba* => b, ba, baa, ...</b></span>
+                            <span class="de">wiederholt das vorherigen Token null, ein oder mehrmals <b>ba* => ba, baa, ...</b></span>
+                            <br>
+                            <b>?</b>
+                            <span class="en">repeat previous token zero or one times <b>ba? => b, ba</b></span>
+                            <span class="de">wiederholt das vorherigen Token null oder ein mal <b>ba? => b, ba</b></span>
+                            <br>
+                            <b>{}</b>
+                            <span class="en">a range of repetitions {min, max} <b>ba{1,3} => ba, baa, baaa</b></span>
+                            <span class="de">ein Zahlenbereich an Wiederholungen {min, max} <b>ba{1,3} => ba, baa, baaa</b></span>
+                            <br>
+                            <b>|</b>
+                            <span class="en">or <b>ab|cd|ef => ab, cd, ef</b>; use () as limit <b>a(bc|de)f => abcf, adef</b></span>
+                            <span class="de">oder <b>ab|cd => ab, cd</b>; benutze () zur limitierung <b>a(bc|de)f => abcf, adef</b></span>
+                        </div>
+                        <span class="en">multiple symbols can be combined to from complex patters <b>.?(a|b)+ => a, b, xa, xb, ...</b></span>
+                        <span class="de">mehrere Symbole können zu komplexen Mustern kombiniert werden  <b>.?(a|b)+ => a, b, xa, xb, ...</b></span>
+                    </div>
+                    <div style="height: 500px;"><!-- empty space  so after jump target is always on top--></div>
+                </div>
+            </tab-content>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
