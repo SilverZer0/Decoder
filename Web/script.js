@@ -62,7 +62,7 @@ function makeButton(tab, text, onclickFunction){
 }
 
 class Tab{
-    constructor(name){
+    constructor(name, colOUT = false){
         this.tabbutton = document.createElement("button");
         this.tabbutton.id = name + "-button";
         this.tabbutton.innerHTML = name;
@@ -85,55 +85,51 @@ class Tab{
 
         var settings = document.createElement("tab-settings")
         this.tab.appendChild(settings);
-        switch(name){
-            case "Anagram":
-            case "Regex":
-                var container = document.createElement("div");
-                settings.appendChild(container);
+        if(colOUT){
+            var container = document.createElement("div");
+            settings.appendChild(container);
 
-                this.IN = document.createElement("input");
-                this.IN.type = "text";
-                this.IN.classList.add("IN");
-                this.IN.addEventListener("keydown", 
-                    (key)=>{if(key.code == "Enter"){this.decode()}}
-                );
-                container.appendChild(this.IN);
+            this.IN = document.createElement("input");
+            this.IN.type = "text";
+            this.IN.classList.add("IN");
+            this.IN.addEventListener("keydown", 
+                (key)=>{if(key.code == "Enter"){this.decode()}}
+            );
+            container.appendChild(this.IN);
 
-                var search = document.createElement("button");
-                search.innerHTML = "Search";
-                search.onclick = (e)=>{this.decode(e.altKey)};
-                container.appendChild(search);
+            var search = document.createElement("button");
+            search.innerHTML = "Search";
+            search.onclick = (e)=>{this.decode(e.altKey)};
+            container.appendChild(search);
 
-                this.count = document.createElement("div");
-                this.count.innerHTML = "0 Results";
-                this.count.style = "width: 100px;text-align: right;"
-                settings.appendChild(this.count);
+            this.count = document.createElement("div");
+            this.count.innerHTML = "0 Results";
+            this.count.style = "width: 100px;text-align: right;"
+            settings.appendChild(this.count);
 
-                this.copy = makeButton(this, "copy", ()=>{navigator.clipboard.writeText(this.OUT.value.join("\n"))})
+            this.copy = makeButton(this, "copy", ()=>{navigator.clipboard.writeText(this.OUT.value.join("\n"))})
 
-                this.OUT = {};
-                this.OUT.div = document.createElement("div");
-				this.OUT.div.classList.add("columns");
-                this.OUT.value = [];
-                var outerDiv = document.createElement("div");
-                outerDiv.classList.add("container");
-                outerDiv.appendChild(this.OUT.div);
-                this.tab.appendChild(outerDiv);
-                break;
-            break;
-            default:
-                this.IN = document.createElement("textarea");
-                this.IN.addEventListener("input", ()=>{this.decode()});
-                this.IN.rows = 20;
-                this.IN.cols = 105;
-                this.IN.classList.add("margin-top");
-                this.tab.insertBefore(this.IN, settings);
+            this.OUT = {};
+            this.OUT.div = document.createElement("div");
+            this.OUT.div.classList.add("columns");
+            this.OUT.value = [];
+            var outerDiv = document.createElement("div");
+            outerDiv.classList.add("container");
+            outerDiv.appendChild(this.OUT.div);
+            this.tab.appendChild(outerDiv);
+        }else{
+            this.IN = document.createElement("textarea");
+            this.IN.addEventListener("input", ()=>{this.decode()});
+            this.IN.rows = 20;
+            this.IN.cols = 105;
+            this.IN.classList.add("margin-top");
+            this.tab.insertBefore(this.IN, settings);
 
-                this.OUT = document.createElement("textarea");
-                this.OUT.rows = 30;
-                this.OUT.cols = 105;
-                this.OUT.readOnly = true;
-                this.tab.appendChild(this.OUT);
+            this.OUT = document.createElement("textarea");
+            this.OUT.rows = 30;
+            this.OUT.cols = 105;
+            this.OUT.readOnly = true;
+            this.tab.appendChild(this.OUT);
         }
         content.appendChild(this.tab);
     }
