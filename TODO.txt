@@ -24,3 +24,6 @@ web
  -? better col-OUT (render for many words takes to long and causes lag)
 other
  - hexahue: 2x3 grid with colors/grays -> letters/numbers
+
+
+LOOK AT https://www.wordplays.com/anagrammer
