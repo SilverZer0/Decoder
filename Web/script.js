@@ -137,7 +137,7 @@ class Tab{
 
 class Anagram extends Tab{
     constructor(){
-        super("Anagram");
+        super("Anagram", true);
         this.source = makeSelect(this, "Source: ", "WordsEng", "OUT_Anagram", "OUT_Regex");
         this.type = makeSelect(this, "type: ", "match", "bigger", "smaller");
         //remove Listeners
@@ -564,7 +564,7 @@ class Morse extends Tab{
 
 class Regex extends Tab{
     constructor(){
-        super("Regex");
+        super("Regex", true);
         this.source = makeSelect(this, "Source: ", "WordsEng", "OUT_Anagram", "OUT_Regex");
         this.type = makeSelect(this, "type: ", "match", "bigger");
         //remove Listeners
