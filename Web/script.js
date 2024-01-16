@@ -107,7 +107,15 @@ class Tab{
             this.count.style = "width: 100px;text-align: right;"
             settings.appendChild(this.count);
 
-            this.copy = makeButton(this, "copy", ()=>{navigator.clipboard.writeText(this.OUT.value.join("\n"))})
+            this.copy = makeButton(this, "copy", ()=>{
+                try{
+                    navigator.clipboard.writeText(this.OUT.value.join("\n"))
+                }catch{
+                    let data = document.createElement('input')
+                    data.value = this.OUT.value.join("\n")
+                    data.select()
+                    document.execCommand("copy");
+                }})
 
             this.OUT = {};
             this.OUT.div = document.createElement("div");
@@ -206,7 +214,7 @@ class Ascii extends Tab{
                 (v.charCodeAt(0) - 64 * nonAscii).toString(base).padStart(8 * (base == 2), "0");
             }).join(" ").replaceAll(" \n ", "\n");
         }else{
-            this.OUT.value = this.IN.value.replaceAll("\n", " \n ").split(" ").map((v) => {
+            this.OUT.value = this.IN.value.toLowerCase().replaceAll("\n", " \n ").split(" ").map((v) => {
                 if("\n\r\t ".includes(v)){return v}
                 var base10 = parseInt(v, base);
                 if(base10.toString(base) == v.replace(/^0+/, "")){
