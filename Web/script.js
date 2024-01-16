@@ -112,9 +112,12 @@ class Tab{
                     navigator.clipboard.writeText(this.OUT.value.join("\n"))
                 }catch{
                     let data = document.createElement('input')
+                    data.style = "display:none"
+                    this.copy.append(data)
                     data.value = this.OUT.value.join("\n")
                     data.select()
                     document.execCommand("copy");
+                    data.remove()
                 }})
 
             this.OUT = {};
