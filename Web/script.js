@@ -664,10 +664,10 @@ class Vigenere extends Tab{
         var key = this.key.value.split("").map((v)=>{
             return (v.toUpperCase().charCodeAt(0) - 65) * (this.reverse.checked ? -1 : 1)
         })
-        this.OUT.value = this.IN.value.split("").map((v,i)=>{
+        this.OUT.value = this.IN.value.split("\n").map((v)=>v.split("").map((v,i)=>{
             return /^[A-Za-z]$/.test(v) ? String.fromCharCode(
                 (v.toUpperCase().charCodeAt(0) - 39 + key[i % key.length]) % 26 
-                + 65 + 32 * (v == v.toLowerCase()) ) : v}).join("");        
+                + 65 + 32 * (v == v.toLowerCase()) ) : v}).join("")).join("\n");        
     }
 }
 
