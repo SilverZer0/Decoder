@@ -108,16 +108,22 @@ class Tab{
             settings.appendChild(this.count);
 
             this.copy = makeButton(this, "copy", ()=>{
+                data = this.OUT.value.join("\n")
                 try{
-                    navigator.clipboard.writeText(this.OUT.value.join("\n"))
+                    navigator.clipboard.writeText(data)
                 }catch{
-                    let data = document.createElement('input')
-                    data.style = "display:none"
-                    this.copy.append(data)
-                    data.value = this.OUT.value.join("\n")
-                    data.select()
-                    document.execCommand("copy");
-                    data.remove()
+                    let textArea = document.createElement("textarea");
+                    textArea.value = data;
+                    textArea.style = "position: absolute; left: -999999px";
+                    document.body.prepend(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                    } catch (error) {
+                        console.error(error);
+                    } finally {
+                        textArea.remove();
+                    }
                 }})
 
             this.OUT = {};
@@ -176,7 +182,7 @@ class Anagram extends Tab{
         this.count.innerHTML = this.OUT.value.length + " Results";
         this.OUT.div.innerHTML = "";
 
-        if(this.OUT.value.length > 10_000 && !force){return}
+        if(this.OUT.value.length > COL_Out_max_length && !force){return}
         
         for(let word of this.OUT.value){
             var span = document.createElement("span");
@@ -595,7 +601,7 @@ class Regex extends Tab{
         this.count.innerHTML = this.OUT.value.length + " Results";
         this.OUT.div.innerHTML = "";
 
-        if(this.OUT.value.length > 10_000 && !force){return}
+        if(this.OUT.value.length > COL_Out_max_length && !force){return}
         
         for(let word of this.OUT.value){
             var span = document.createElement("span");
@@ -710,10 +716,11 @@ class Info{
     }
 }
 
+const COL_Out_max_length = 5_000
 var WordsEng = null;
 fetch("./wordsEng.txt").then(
     response => response.text()).then(data => {
-    WordsEng =  data.split('\n');
+    WordsEng = data.split('\n');
 });
 
 function getWords(source){
